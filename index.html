@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Discord Clone</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    
+    .chat-messages {
+      flex: 1;
+      overflow-y: scroll;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    
+    .chat-input {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #f0f0f0;
+    }
+    
+    .chat-input input {
+      flex: 1;
+      padding: 5px;
+      border: none;
+      border-radius: 3px;
+    }
+    
+    .chat-input button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #7289da;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-messages" id="chatMessages">
+      <!-- Chat messages will be dynamically added here -->
+    </div>
+    <div class="chat-input">
+      <input type="text" id="messageInput" placeholder="Type your message...">
+      <button id="sendButton">Send</button>
+    </div>
+  </div>
+  
+<script>
+  const chatMessages = document.getElementById('chatMessages');
+  const messageInput = document.getElementById('messageInput');
+  const sendButton = document.getElementById('sendButton');
+  
+  // Create a WebSocket connection
+  const socket = new WebSocket('adeptlightgreenmineral.buttonfindinoff.repl.co');
+
+  // WebSocket open event
+  socket.onopen = () => {
+    console.log('WebSocket connection established.');
+  };
+
+  // WebSocket message event
+  socket.onmessage = (event) => {
+    const message = event.data;
+    const messageElement = document.createElement('div');
+    messageElement.textContent = message;
+    chatMessages.appendChild(messageElement);
+  };
+
+  // Event listener for the send button
+  sendButton.addEventListener('click', () => {
+    const message = messageInput.value.trim();
+    
+    if (message !== '') {
+      // Send the message to the server
+      socket.send(message);
+      
+      // Clear the input field
+      messageInput.value = '';
+    }
+  });
+</script>
+
+</body>
+</html>
